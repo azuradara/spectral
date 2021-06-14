@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FavoriteController;
 
 /*
@@ -22,8 +23,11 @@ Route::post('/auth/signup', [AuthController::class, 'signup']);
 Route::post('/auth/login', [AuthController::class], 'login');
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::post('/fav', [FavoriteController::class, 'store']);
     Route::get('/fav', [FavoriteController::class, 'seek']);
+    Route::post('/fav', [FavoriteController::class, 'store']);
+
+    Route::post('/cat', [CategoryController::class, 'store']);
+    Route::get('/cat', [CategoryController::class, 'index']);
 });
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
