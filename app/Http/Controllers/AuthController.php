@@ -11,17 +11,19 @@ class AuthController extends Controller
 {
     public function signup(Request $request)
     {
+        $tag = "#" . substr(str_shuffle("0123456789"), 0, 4);
+
+        $request["username"] .= $tag;
+
         $body = $request->validate([
-            'username' => 'required|string|max:32|unique:users,username',
+            'username' => 'required|string|max:32|min:8|unique:users,username',
             'email' => 'required|string|unique:users,email|email',
-            'name' => 'required|max:32',
             'password' => 'required|string|confirmed'
         ]);
 
         $usr = User::create([
             'username' => $body['username'],
             'email' => $body['email'],
-            'name' => $body['name'],
             'password' => bcrypt($body['password']),
         ]);
 
@@ -33,6 +35,23 @@ class AuthController extends Controller
         ];
 
         return response($response, 201);
+    }
+
+    public function changeTag(Request $request)
+    {
+        $username = substr(auth()->user()->username, 0, -5);
+
+        $request['username'] = $username . $request['tag'];
+
+        if ($request['username'] === auth()->user()->username) return response(['message' => 'Tag unchanged.'], 422);
+
+        $body = $request->validate([
+            'username' => 'required|string|max:32|min:8|unique:users,username|regex:/^([a-z])+#+\d{4}$/i'
+        ]);
+
+        auth()->user()->update(['username' => $body['username']]);
+
+        return response(['user' => auth()->user()->username], 201);
     }
 
     public function signout(Request $request)

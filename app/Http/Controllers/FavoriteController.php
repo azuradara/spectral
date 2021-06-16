@@ -17,13 +17,13 @@ class FavoriteController extends Controller
         $this->validate($request, [
             'title' => 'required|max:32',
             'url' => 'required|url',
-            'description' => 'max:128'
+            'category_id' => 'required|exists:categories,id'
         ]);
 
         return $request->user()->favorites()->create([
             'title' => $request->title,
             'url' => $request->url,
-            'description' => $request->description
+            'category_id' => $request->category_id
         ]);
     }
 
