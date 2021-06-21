@@ -70,7 +70,7 @@ class AuthController extends Controller
             'password' => 'required'
         ]);
 
-        $idfType = filter_var($body['identified'], FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+        $idfType = filter_var($body['identifier'], FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
 
         $usr = User::where($idfType, $body['identifier'])->first();
 
@@ -83,8 +83,11 @@ class AuthController extends Controller
         $token = $usr->createToken('app_token')->plainTextToken;
 
         $response = [
-            'user' => $usr,
-            'token' => $token,
+            "data" => [
+                'user' => $usr,
+                'token' => $token,
+            ],
+            "success" => true
         ];
 
         return response($response, 201);

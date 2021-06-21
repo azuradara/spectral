@@ -20,7 +20,7 @@ use App\Http\Controllers\FavoriteController;
 // public routes
 
 Route::post('/auth/signup', [AuthController::class, 'signup']);
-Route::post('/auth/login', [AuthController::class], 'login');
+Route::post('/auth/login', [AuthController::class, 'login']);
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/fav', [FavoriteController::class, 'seek']);
