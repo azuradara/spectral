@@ -12,6 +12,7 @@ class Favorite extends Model
     protected $fillable = [
         'title',
         'category_id',
-        'url'
+        'url',
+        'is_pinned'
     ];
 }
