@@ -14,36 +14,12 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $cats = auth()->user()->categories->toArray();
-
-        // dd($cats);
-
-        $nucat = array_map(array($this, 'populate'), $cats);
-
         return [
-            "data" => $nucat,
+            "data" => auth()->user()->categories()->with('favorites')->get()->toArray(),
             "success" => true
         ];
     }
 
-    private function populate($cat)
-    {
-
-        $nucat = array_merge($cat, [
-            "favorites" => [
-                [
-                    "title" => "test",
-                    "url" => "https://youtube.com",
-                    "category_id" => 1,
-                    "icon" => "",
-                    "created_at" => "2021-06-14T13:46:36.000000Z",
-                    "updated_at" => "2021-06-14T13:46:36.000000Z",
-                ]
-            ]
-        ]);
-
-        return $nucat;
-    }
 
     /**
      * Show the form for creating a new resource.
