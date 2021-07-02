@@ -25,6 +25,7 @@ Route::post('/auth/login', [AuthController::class, 'login']);
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/fav', [FavoriteController::class, 'seek']);
     Route::post('/fav', [FavoriteController::class, 'store']);
+    Route::get('fav/pinned', [FavoriteController::class, 'getPinned']);
 
     Route::post('/cat', [CategoryController::class, 'store']);
     Route::get('/cat', [CategoryController::class, 'index']);

@@ -34,4 +34,12 @@ class FavoriteController extends Controller
             200
         );
     }
+
+    public function getPinned(Request $request)
+    {
+        return [
+            "data" => auth()->user()->favorites()->where('is_pinned', '=', true)->get()->toArray(),
+            "error" => null
+        ];
+    }
 }
