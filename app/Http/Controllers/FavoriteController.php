@@ -38,7 +38,7 @@ class FavoriteController extends Controller
     public function getPinned(Request $request)
     {
         return [
-            "data" => auth()->user()->favorites()->where('is_pinned', '=', true)->get()->toArray(),
+            "data" => $request->user()->favorites()->where('is_pinned', '=', true)->get()->toArray(),
             "error" => null
         ];
     }
