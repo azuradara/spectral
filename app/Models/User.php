@@ -47,6 +47,11 @@ class User extends Authenticatable
     public function favorites()
     {
         return $this->hasMany(Favorite::class);
+
+        /** TODO:
+         * switch this to a hasManyThrough relationship
+         * with the necessary table modifications
+         */
     }
 
     public function categories()
