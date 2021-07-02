@@ -19,6 +19,7 @@ class CreateFavoritesTable extends Migration
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
             $table->string('url');
             $table->string('title');
+            $table->boolean('is_pinned')->default(false);
             $table->timestamps();
         });
     }
