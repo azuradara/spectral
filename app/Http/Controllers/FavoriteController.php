@@ -27,12 +27,45 @@ class FavoriteController extends Controller
         ]);
     }
 
+    public function delete(Request $request, $id)
+    {
+        $rm = $request->user()->favorites()->where('id', '=', $id)->delete();
+
+        return $rm
+            ? [
+                'data' => "Fav of ID:$id has been deleted.",
+                'error' => null
+            ]
+            : [
+                'data' => null,
+                'error' => "Fav of ID:$id cannot be found."
+            ];
+    }
+
     public function seek(Request $request)
     {
         return response(
-            auth()->user()->favorites,
+            $request()->user()->favorites,
             200
         );
+    }
+
+
+
+    public function pin(Request $request, $id)
+    {
+        $pin = $request->user()->favorites()->where('id', '=', $id)->update(['is_pinned' => $request['is_pinned']]);
+
+
+        return $pin
+            ? [
+                'data' => $request->user()->favorites()->where('id', '=', $id)->get()[0],
+                'error' => null
+            ]
+            : [
+                'data' => null,
+                'error' => "Fav of ID:$id cannot be updated."
+            ];
     }
 
     public function getPinned(Request $request)
