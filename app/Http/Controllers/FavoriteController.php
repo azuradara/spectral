@@ -45,7 +45,7 @@ class FavoriteController extends Controller
     public function seek(Request $request)
     {
         return response(
-            $request()->user()->favorites,
+            $request->user()->favorites,
             200
         );
     }
@@ -54,12 +54,48 @@ class FavoriteController extends Controller
 
     public function pin(Request $request, $id)
     {
+        // TODO: establish error checks later
         $pin = $request->user()->favorites()->where('id', '=', $id)->update(['is_pinned' => $request['is_pinned']]);
 
 
         return $pin
             ? [
-                'data' => $request->user()->favorites()->where('id', '=', $id)->get()[0],
+                'data' => $request->user()->favorites()->where('id', '=', $id)->first(),
+                'error' => null
+            ]
+            : [
+                'data' => null,
+                'error' => "Fav of ID:$id cannot be updated."
+            ];
+    }
+
+    public function update(Request $request, $id)
+    {
+        $this->validate($request, [
+            'title' => 'max:32',
+            'url' => 'url',
+            'category_id' => 'exists:categories,id'
+        ]);
+        // dd($request->all());
+
+        $fav = $request->user()->favorites()->where('id', '=', $id);
+        // dd((bool)($fav->first()));
+
+        foreach ($request->all() as $k => $v) {
+            $fav->update(["$k" => "$v"]);
+        }
+
+
+        // TODO: Revisit query later
+
+        // $fav = Favorite::find($id);
+        // $fav->title = $request->title;
+        // $fav->url = $request->url;
+        // $fav->category_id = $request->category_id;
+
+        return (bool)($fav->first())
+            ? [
+                'data' => $fav->get(),
                 'error' => null
             ]
             : [
@@ -70,6 +106,7 @@ class FavoriteController extends Controller
 
     public function getPinned(Request $request)
     {
+
         return [
             "data" => $request->user()->favorites()->where('is_pinned', '=', true)->get()->toArray(),
             "error" => null
