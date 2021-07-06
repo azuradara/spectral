@@ -43,10 +43,21 @@ class CategoryController extends Controller
             'name' => 'required|max:32',
         ]);
 
-        return $request->user()->categories()->create([
+        $cat = $request->user()->categories()->create([
             'name' => $request->name,
             'is_pinned' => false
         ]);
+
+
+        return (bool)($cat)
+            ? [
+                'data' => $cat,
+                'error' => null
+            ]
+            : [
+                'data' => null,
+                'error' => "Couldn't create category."
+            ];
     }
 
     /**
