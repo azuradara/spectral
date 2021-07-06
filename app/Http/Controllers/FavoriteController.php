@@ -95,7 +95,7 @@ class FavoriteController extends Controller
 
         return (bool)($fav->first())
             ? [
-                'data' => $fav->get(),
+                'data' => $fav->first(),
                 'error' => null
             ]
             : [
