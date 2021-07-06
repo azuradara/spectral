@@ -71,16 +71,26 @@ class CategoryController extends Controller
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Category  $category
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Category $category)
+
+    public function update(Request $request, String $id)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required|max:32'
+        ]);
+
+        $cat = $request->user()->categories()->where('id', '=', $id);
+
+        $cat->update(['name' => $request->name]);
+
+        return (bool)($cat->first())
+            ? [
+                'data' => $cat->with('favorites')->first(),
+                'error' => null
+            ]
+            : [
+                'data' => null,
+                'error' => "Category of ID:$id cannot be updated."
+            ];
     }
 
     /**

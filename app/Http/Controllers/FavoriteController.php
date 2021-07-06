@@ -72,7 +72,7 @@ class FavoriteController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'title' => 'max:32',
+            'title' => 'max:128',
             'url' => 'url',
             'category_id' => 'exists:categories,id'
         ]);
