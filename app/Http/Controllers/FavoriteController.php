@@ -20,11 +20,21 @@ class FavoriteController extends Controller
             'category_id' => 'required|exists:categories,id'
         ]);
 
-        return $request->user()->favorites()->create([
+        $fav = $request->user()->favorites()->create([
             'title' => $request->title,
             'url' => $request->url,
             'category_id' => $request->category_id
         ]);
+
+        return (bool)($fav)
+            ? [
+                'data' => $fav,
+                'error' => null
+            ]
+            : [
+                'data' => null,
+                'error' => "Fav of ID:$id cannot be updated."
+            ];
     }
 
     public function delete(Request $request, $id)
