@@ -93,14 +93,18 @@ class CategoryController extends Controller
             ];
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Category  $category
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Category $category)
+    public function delete(Request $request, $id)
     {
-        //
+        $rm = $request->user()->categories()->where('id', '=', $id)->delete();
+
+        return $rm
+            ? [
+                'data' => "Category of ID:$id has been deleted.",
+                'error' => null
+            ]
+            : [
+                'data' => null,
+                'error' => "Category of ID:$id cannot be found."
+            ];
     }
 }

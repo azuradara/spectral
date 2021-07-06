@@ -35,6 +35,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/cat', [CategoryController::class, 'store']);
     Route::get('/cat', [CategoryController::class, 'index']);
     Route::put('/cat/{id}', [CategoryController::class, 'update']);
+    Route::delete('/cat/{id}', [CategoryController::class, 'delete']);
 
     Route::put('/auth/user/tag', [AuthController::class, 'changeTag']);
 });
