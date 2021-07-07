@@ -27,9 +27,9 @@ class TaskController extends Controller
         ]);
 
         $task = $request->user()->tasks()->create([
-            'content' => $request->title,
+            'task_category_id' => $request->task_category_id,
+            'content' => $request->content,
             'color' => $request->color,
-            'task_category_id' => $request->task_category_id
         ]);
 
         $request->is_important && $task->update(["is_important" => $request->is_important]);

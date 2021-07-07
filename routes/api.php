@@ -28,6 +28,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     /** BOOKMARKS
      * TODO: Rename to bookmarks instead of favs
+     * TODO: Put queries in try:catch blocks
      */
 
     Route::get('/fav', [FavoriteController::class, 'seek']);

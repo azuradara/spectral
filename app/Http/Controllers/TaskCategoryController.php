@@ -51,7 +51,7 @@ class TaskCategoryController extends Controller
 
         return (bool)($task_category->first())
             ? [
-                'data' => $task_category->with('favorites')->first(),
+                'data' => $task_category->with('tasks')->first(),
                 'error' => null
             ]
             : [

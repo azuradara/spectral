@@ -10,6 +10,7 @@ class Task extends Model
     use HasFactory;
 
     protected $fillable = [
+        'task_category_id',
         'content',
         'color',
         'is_important',
