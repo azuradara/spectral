@@ -23,19 +23,34 @@ Route::post('/auth/signup', [AuthController::class, 'signup']);
 Route::post('/auth/login', [AuthController::class, 'login']);
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
+
+    /** BOOKMARKS
+     * TODO: Rename to bookmarks instead of favs
+     */
+
     Route::get('/fav', [FavoriteController::class, 'seek']);
     Route::post('/fav', [FavoriteController::class, 'store']);
     Route::delete('/fav/{id}', [FavoriteController::class, 'delete']);
     Route::put('/fav/{id}', [FavoriteController::class, 'update']);
-
     Route::put('/fav/pin/{id}', [FavoriteController::class, 'pin']);
-
     Route::get('fav/pinned', [FavoriteController::class, 'getPinned']);
+
+    /** CATEGORIES */
 
     Route::post('/cat', [CategoryController::class, 'store']);
     Route::get('/cat', [CategoryController::class, 'index']);
     Route::put('/cat/{id}', [CategoryController::class, 'update']);
     Route::delete('/cat/{id}', [CategoryController::class, 'delete']);
+
+    /** TASK CATEGORIES */
+
+
+
+    /** TASKS */
+
+
+
+    /** USER | EXPERIMENTAL */
 
     Route::put('/auth/user/tag', [AuthController::class, 'changeTag']);
 });

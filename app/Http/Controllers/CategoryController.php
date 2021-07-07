@@ -12,11 +12,11 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         return [
-            "data" => auth()->user()->categories()->with('favorites')->get()->toArray(),
-            "success" => true
+            "data" => $request->user()->categories()->with('favorites')->get()->toArray(),
+            "error" => null
         ];
     }
 

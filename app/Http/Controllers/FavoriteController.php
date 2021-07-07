@@ -7,11 +7,6 @@ use App\Models\Favorite;
 
 class FavoriteController extends Controller
 {
-    public function index()
-    {
-        return Favorite::all();
-    }
-
     public function store(Request $request)
     {
         $this->validate($request, [
@@ -33,7 +28,7 @@ class FavoriteController extends Controller
             ]
             : [
                 'data' => null,
-                'error' => "Fav of ID:$id cannot be updated."
+                'error' => "Fav of cannot be created."
             ];
     }
 
@@ -54,10 +49,10 @@ class FavoriteController extends Controller
 
     public function seek(Request $request)
     {
-        return response(
-            $request->user()->favorites,
-            200
-        );
+        return [
+            "data" => $request->user()->favorites,
+            "error" => null
+        ];
     }
 
 
@@ -92,7 +87,7 @@ class FavoriteController extends Controller
         // dd((bool)($fav->first()));
 
         foreach ($request->all() as $k => $v) {
-            $fav->update(["$k" => "$v"]);
+            $fav->update(["$k" => $v]);
         }
 
 
