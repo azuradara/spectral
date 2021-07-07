@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use function PHPSTORM_META\map;
-
 class TaskCategoryController extends Controller
 {
     public function get(Request $request)
@@ -16,11 +14,11 @@ class TaskCategoryController extends Controller
         ];
     }
 
-    public function add(Request $request)
+    public function create(Request $request)
     {
         $this->validate($request, [
             'name' => 'required|max:32',
-            'color' => 'required|regex:^#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$'
+            'color' => ['required', 'regex:/^#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/']
         ]);
 
         $task_category = $request->user()->task_categories()->create([
@@ -42,7 +40,7 @@ class TaskCategoryController extends Controller
     {
         $this->validate($request, [
             'name' => 'max:32',
-            'color' => 'regex:^#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$'
+            'color' => ['regex:/^#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/']
         ]);
 
         $task_category = $request->user()->task_categories()->where('id', '=', $id);

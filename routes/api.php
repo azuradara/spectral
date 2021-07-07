@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\TaskCategoryController;
+use App\Http\Controllers\TaskController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,10 +46,17 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     /** TASK CATEGORIES */
 
-
+    Route::get('/task_cat', [TaskCategoryController::class, 'get']);
+    Route::post('/task_cat', [TaskCategoryController::class, 'create']);
+    Route::put('/task_cat/{id}', [TaskCategoryController::class, 'update']);
+    Route::delete('/task_cat/{id}', [TaskCategoryController::class, 'delete']);
 
     /** TASKS */
 
+    Route::get('/task', [TaskController::class, 'get']);
+    Route::post('/task', [TaskController::class, 'create']);
+    Route::put('/task/{id}', [TaskController::class, 'update']);
+    Route::delete('/task/{id}', [TaskController::class, 'delete']);
 
 
     /** USER | EXPERIMENTAL */

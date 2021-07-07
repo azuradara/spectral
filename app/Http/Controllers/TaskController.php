@@ -21,7 +21,7 @@ class TaskController extends Controller
     {
         $this->validate($request, [
             'content' => 'required|max:2000',
-            'color' => 'required|regex:^#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$',
+            'color' => ['required', 'regex:/^#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/'],
             'task_category_id' => 'required|exists:task_categories,id',
             'is_important' => 'boolean'
         ]);
@@ -54,9 +54,9 @@ class TaskController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'content' => 'required|max:2000',
-            'color' => 'required|regex:^#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$',
-            'task_category_id' => 'required|exists:task_categories,id',
+            'content' => 'max:2000',
+            'color' => ['regex:/^#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/'],
+            'task_category_id' => 'exists:task_categories,id',
             'is_important' => 'boolean',
             'is_done' => 'boolean'
         ]);
