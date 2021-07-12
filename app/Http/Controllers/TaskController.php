@@ -63,9 +63,7 @@ class TaskController extends Controller
 
         $task = $request->user()->tasks()->where('id', '=', $id);
 
-        foreach ($request->all() as $k => $v) {
-            $task->update(["$k" => $v]);
-        }
+        $task->update($request->all());
 
         return (bool)$task->first()
             ? response(
