@@ -10,7 +10,7 @@ services:
     restart: unless-stopped
     tty: true
     volumes:
-      - ./:/var/www
+      - ./src:/var/www
       - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
     environment: 
       SERVICE_NAME: app
@@ -25,7 +25,7 @@ services:
     restart: unless-stopped
     tty: true
     volumes:
-      - ./:/var/www
+      - ./src:/var/www
       - ./nginx/conf.d/app.conf:/etc/nginx/conf.d/default.conf
     ports:
       - "80:80"

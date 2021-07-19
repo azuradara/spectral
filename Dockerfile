@@ -1,6 +1,6 @@
 FROM php:8.0.8-fpm
 
-COPY composer.lock composer.json /var/www/
+COPY src/composer.lock src/composer.json /var/www/
 
 WORKDIR /var/www
 
@@ -33,9 +33,9 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN groupadd -g 1000 www
 RUN useradd -u 1000 -ms /bin/bash -g www www
 
-COPY . /var/www
+COPY /src /var/www
 
-COPY --chown=www:www . /var/www
+COPY --chown=www:www /src /var/www
 
 USER www
 
