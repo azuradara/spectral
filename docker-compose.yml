@@ -1,11 +1,60 @@
 version: "3"
+
 services:
   app:
     build:
-      context: ./
+      context: .
+      dockerfile: Dockerfile
+    image: digitalocean.com/php
+    container_name: app
+    restart: unless-stopped
+    tty: true
     volumes:
-      - .:/var/www
+      - ./:/var/www
+      - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    environment: 
+      SERVICE_NAME: app
+      SERVICE_TAGS: dev
+    working_dir: /var/www
+    networks:
+      - spectral
+    
+  webserver:
+    image: nginx:alpine
+    container_name: webserver
+    restart: unless-stopped
+    tty: true
+    volumes:
+      - ./:/var/www
+      - ./nginx/conf.d/:/etc/nginx/conf.d
     ports:
-      - "8080:8080"
-    environment:
-      - APP_ENV=local
+      - "80:80"
+      - "443:443"
+    networks:
+      - spectral
+
+  db:
+    image: mysql:5.7.22
+    container_name: db
+    restart: unless-stopped
+    tty: true
+    volumes:
+      - dbdata:/var/lib/mysql
+      - ./mysql/my.cnf:/etc/mysql/my.cnf
+    ports: 
+      - "3306:3306"
+    environment: 
+      MYSQL_DATABASE: spectral
+      MYSQL_ROOT_PASSWORD: spectral@dev
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    networks:
+      - spectral
+
+networks:
+  spectral:
+    driver: bridge
+
+volumes:
+  dbdata:
+    driver: local
