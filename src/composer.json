@@ -1,8 +1,8 @@
 {
-    "name": "laravel/laravel",
+    "name": "azuradara/spectral",
     "type": "project",
-    "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "description": "Spectral",
+    "keywords": ["azuradara", "spectral"],
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
