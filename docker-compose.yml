@@ -1,49 +1,32 @@
-version: "3.8"
+version: '3'
 
 services:
-  app:
+  webserver:
     build:
       context: .
-      dockerfile: Dockerfile
-    image: digitalocean.com/php
-    container_name: app
-    restart: unless-stopped
-    tty: true
-    volumes:
-      - ./src:/var/www
-      - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
-    environment: 
-      SERVICE_NAME: app
-      SERVICE_TAGS: dev
-    working_dir: /var/www
-    networks:
-      - spectral
-    
-  webserver:
-    image: nginx:alpine
+      dockerfile: nginx.dockerfile
     container_name: webserver
-    restart: unless-stopped
-    tty: true
-    volumes:
-      - ./src:/var/www
-      - ./nginx/conf.d/app.conf:/etc/nginx/conf.d/default.conf
     ports:
-      - "443:443"
-      - "80:80"
+      - 80:80
+    volumes:
+      - ./src:/var/www:delegated
+    depends_on:
+      - php
+      - db
     networks:
       - spectral
 
   db:
-    image: mysql:5.7.22
+    image: mysql:5.7.29
     container_name: db
     restart: unless-stopped
     tty: true
     volumes:
       - dbdata:/var/lib/mysql
       - ./mysql/my.cnf:/etc/mysql/my.cnf
-    ports: 
-      - "3306:3306"
-    environment: 
+    ports:
+      - 3306:3306
+    environment:
       MYSQL_DATABASE: spectral
       MYSQL_ROOT_PASSWORD: spectral@dev
       SERVICE_TAGS: dev
@@ -51,9 +34,47 @@ services:
     networks:
       - spectral
 
+  php:
+    build:
+      context: .
+      dockerfile: php.dockerfile
+    container_name: php
+    volumes:
+      - ./src:/var/www:delegated
+    networks:
+      - spectral
+
+  composer:
+    build:
+      context: .
+      dockerfile: composer.dockerfile
+    volumes:
+      - ./src:/var/www
+    working_dir: /var/www
+    depends_on:
+      - php
+    user: spectral
+    entrypoint: ['composer', '--ignore-platform-reqs']
+    networks:
+      - spectral
+
+  artisan:
+    build:
+      context: .
+      dockerfile: php.dockerfile
+    container_name: artisan
+    volumes:
+      - ./src:/var/www:delegated
+    depends_on:
+      - db
+    working_dir: /var/www
+    user: spectral
+    entrypoint: ['php', '/var/www/artisan']
+    networks:
+      - spectral
+
 networks:
   spectral:
-    driver: bridge
 
 volumes:
   dbdata:
