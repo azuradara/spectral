@@ -8,8 +8,10 @@ services:
     container_name: webserver
     ports:
       - 80:80
+      - 443:443
     volumes:
       - ./src:/var/www:delegated
+      - ./nginx/ssl:/etc/nginx/certs
     depends_on:
       - php
       - db
