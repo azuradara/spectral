@@ -30,6 +30,7 @@ class TaskController extends Controller
             'task_category_id' => $request->task_category_id,
             'content' => $request->content,
             'color' => $request->color,
+            'is_done' => false
         ]);
 
         $request->is_important && $task->update(["is_important" => $request->is_important]);
