@@ -8,6 +8,7 @@ RUN useradd -u 1000 -ms /bin/bash -g spectral spectral
 RUN mkdir -p /var/www
 
 RUN chown spectral:spectral /var/www
+RUN chmod 755 /var/www
 
 WORKDIR /var/www
 
