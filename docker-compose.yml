@@ -7,8 +7,8 @@ services:
       dockerfile: nginx.dockerfile
     container_name: webserver
     ports:
-      - 80:80
       - 443:443
+      - 80:80
     volumes:
       - ./src:/var/www:delegated
       - ./nginx/ssl:/etc/nginx/certs

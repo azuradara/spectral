@@ -1,8 +1,8 @@
 FROM nginx:stable-alpine
 
-ADD ./nginx/nginx.conf /etc/nginx/
+COPY ./nginx/nginx.conf /etc/nginx/
 
-ADD ./nginx/default.conf /etc/nginx/conf.d
+COPY ./nginx/default.conf /etc/nginx/conf.d
 
 RUN mkdir -p /var/www
 
