@@ -7,6 +7,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\TaskCategoryController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\WeatherController;
 
 /*
 |--------------------------------------------------------------------------
@@ -58,6 +59,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/task', [TaskController::class, 'create']);
     Route::put('/task/{id}', [TaskController::class, 'update']);
     Route::delete('/task/{id}', [TaskController::class, 'delete']);
+
+    /** WEATHER */
+    Route::get('/weather', [WeatherController::class, 'index']);
 
 
     /** USER | EXPERIMENTAL */
